@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using imagesAzureProject.Models;
+using System.Collections.Generic;
 
-namespace OrderezeTask
+namespace imagesAzureProject.Repositories
 {
     /// <summary>
     /// Service responsible managing all Images operations
