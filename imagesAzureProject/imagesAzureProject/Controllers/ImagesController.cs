@@ -27,10 +27,36 @@ namespace imagesAzureProject.Controllers
             this.imageRepository = ImageRepository;
         }
 
-        // GET: Images
         public ActionResult AddImage()
         {
             return View();
+        }
+
+        public ActionResult DeleteImage(int? id)
+        {          
+            //Find the Image
+            Image currentImage = imageRepository.GetImages().Where(x => x.Id == id).FirstOrDefault();
+            
+            //Check if Exist
+            if (currentImage ==null)
+                 return RedirectToAction("Index", "Home");
+
+
+            return View(currentImage);
+        }
+
+  
+        public ActionResult Details(int? id)
+        {
+            //Find the Image
+            Image currentImage = imageRepository.GetImages().Where(x => x.Id == id).FirstOrDefault();
+
+            //Check if Exist
+            if (currentImage == null)
+                return RedirectToAction("Index", "Home");
+
+
+            return View(currentImage);
         }
 
 
@@ -63,6 +89,22 @@ namespace imagesAzureProject.Controllers
             }
             return View();
         }
+
+        //Get Image and Delete it
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteImage([Bind(Include = "Id,Name,Description,ImagePath")] Image image)
+        {
+
+            // Delete current Image
+            imageRepository.DeleteImage(image.Id);
+
+            TempData["SuccessfulDelete"] = "Successful Deleted";
+            return RedirectToAction("Index", "Home"); ;
+        }
+
+
+
 
 
 
