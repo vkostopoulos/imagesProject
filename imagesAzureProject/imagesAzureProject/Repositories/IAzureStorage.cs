@@ -15,5 +15,8 @@ namespace ImagesAzureProject.Repositories
         //Delete Image from Storage .Return true - false
         bool DeleteImage(string ImageName);
 
-    }
+        Image CheckIfImageExist(HttpPostedFileBase InputImage, Image image);
+     
+
+        }
 }

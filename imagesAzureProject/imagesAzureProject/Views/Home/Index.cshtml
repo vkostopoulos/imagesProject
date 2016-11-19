@@ -41,7 +41,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ImagePath)
+                    <img src="@Html.DisplayFor(modelItem => item.ImagePath)" width="200" height="130" />
                 </td>
                 <td>
                     @Html.ActionLink("Details", "Details", "Images", new { id = item.Id }, null) | 

@@ -39,9 +39,8 @@ namespace ImagesAzureProject.Repositories
         {
             string AzurePath = "";
 
-
             // Retrieve reference to a blob named as image.
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(image.Name);
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(image.Name + Path.GetExtension(InputImage.FileName));
 
             // Create or overwrite the ImageName blob with contents from a local file.
             using (var fileStream = System.IO.File.OpenRead(Path.GetFullPath(InputImage.FileName)))
@@ -69,5 +68,34 @@ namespace ImagesAzureProject.Repositories
             catch { return false; }
         }
 
+
+        // Check if blob with same Name exist. If yes change name to ImageName _ Number and check it again.
+        // Find the first available Name and return the changed image
+        public Image CheckIfImageExist(HttpPostedFileBase InputImage, Image image)
+        {
+            string AzurePath = "";
+
+            int number = 1;
+            string FinalImageName = image.Name;
+            // Retrieve reference to a blob named as image.
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(image.Name + Path.GetExtension(InputImage.FileName));
+
+            //If image name already exist, change name to ImageName _ (Number)
+
+            while (blockBlob.Exists())
+            {              
+                number += 1;
+                blockBlob = container.GetBlockBlobReference(image.Name + "_" + number + Path.GetExtension(InputImage.FileName));
+                FinalImageName = image.Name + "_" + number;
+            }
+
+            //Get blob url
+            AzurePath = blockBlob.Uri.ToString();
+
+            image.ImagePath = AzurePath;
+            image.Name = FinalImageName;
+
+            return image;
+        }
     }
 }

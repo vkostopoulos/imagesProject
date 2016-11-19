@@ -29,9 +29,7 @@ namespace ImagesAzureProject.Repositories
 
         // Add New Image
         public int AddNewImage(Image image)
-        {         
-            image.Name = ImageNameAllreadyExist(image.Name);
-
+        {          
              context.Images.Add(image);
              context.SaveChanges();
 
@@ -47,25 +45,6 @@ namespace ImagesAzureProject.Repositories
             //Remove
             context.Images.Remove(selectedImage);
             context.SaveChanges();
-        }
-
-        // Check if exist image with this Name. If yes return new fileName
-        private string ImageNameAllreadyExist(string ImageName)
-        {
-            int number = 1;
-            string tempFileName = ImageName;
-
-            //If image name already exist, change name to ImageName _ (Number)
-            while (context.Images.Any(x => x.Name == tempFileName))
-            {
-                    tempFileName = ImageName;
-                    number += 1;
-                    tempFileName = tempFileName + "_" + number;
-            }
-            
-            ImageName = tempFileName;
-
-            return ImageName;
         }
      
     }
