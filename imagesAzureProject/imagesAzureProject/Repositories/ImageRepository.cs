@@ -13,7 +13,7 @@ namespace ImagesAzureProject.Repositories
     {
        
         //  Define database context in a class variable
-        private ImagesContext context;
+        private ImagesContext context;       
 
         //  Constructor expects an instance of the context
         public ImageRepository(ImagesContext context)
@@ -29,15 +29,8 @@ namespace ImagesAzureProject.Repositories
 
         // Add New Image
         public int AddNewImage(Image image)
-        {
-           int number = 0;
-
-            //If image name already exist, change name to ImageName _ (Number)
-           while (ImageNameAllreadyExist(image))
-            {
-                number += 1;
-                image.Name = image.Name + "_" + number;
-            }
+        {         
+            image.Name = ImageNameAllreadyExist(image.Name);
 
              context.Images.Add(image);
              context.SaveChanges();
@@ -56,10 +49,24 @@ namespace ImagesAzureProject.Repositories
             context.SaveChanges();
         }
 
-        // Check if exist image with this Name
-        private bool ImageNameAllreadyExist(Image image)
+        // Check if exist image with this Name. If yes return new fileName
+        private string ImageNameAllreadyExist(string ImageName)
         {
-            return context.Images.Any(x => x.Name == image.Name);
+            int number = 1;
+            string tempFileName = ImageName;
+
+            //If image name already exist, change name to ImageName _ (Number)
+            while (context.Images.Any(x => x.Name == tempFileName))
+            {
+                    tempFileName = ImageName;
+                    number += 1;
+                    tempFileName = tempFileName + "_" + number;
+            }
+            
+            ImageName = tempFileName;
+
+            return ImageName;
         }
+     
     }
 }

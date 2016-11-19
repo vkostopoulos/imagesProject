@@ -81,7 +81,7 @@ namespace imagesAzureProject.Controllers
 
                     //Add Image to DB
                     int id = imageRepository.AddNewImage(image);
-
+      
                     TempData["Success"] = "The image added successfully";
                 }
                 else
@@ -93,11 +93,12 @@ namespace imagesAzureProject.Controllers
         //Get Image and Delete it
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteImage([Bind(Include = "Id,Name,Description,ImagePath")] Image image)
+        public ActionResult DeleteImage([Bind(Include = "Id")] int Id)
         {
-
+            string currentImageName = imageRepository.GetImages().Where(x => x.Id == Id).FirstOrDefault().Name;
+        
             // Delete current Image
-            imageRepository.DeleteImage(image.Id);
+            imageRepository.DeleteImage(Id);
 
             TempData["SuccessfulDelete"] = "Successful Deleted";
             return RedirectToAction("Index", "Home"); ;
