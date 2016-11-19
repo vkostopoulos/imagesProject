@@ -1,5 +1,4 @@
 ﻿using imagesAzureProject.Models;
-using imagesAzureProject.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,7 +21,6 @@ namespace ImagesAzureProject.Repositories
             this.context = context;
         }
 
-
         // Get all Images
         public List<Image> GetImages()
         {
@@ -32,6 +30,15 @@ namespace ImagesAzureProject.Repositories
         // Add New Image
         public int AddNewImage(Image image)
         {
+           int number = 0;
+
+            //If image name already exist, change name to ImageName _ (Number)
+           while (ImageNameAllreadyExist(image))
+            {
+                number += 1;
+                image.Name = image.Name + "_" + number;
+            }
+
              context.Images.Add(image);
              context.SaveChanges();
 
@@ -49,5 +56,10 @@ namespace ImagesAzureProject.Repositories
             context.SaveChanges();
         }
 
+        // Check if exist image with this Name
+        private bool ImageNameAllreadyExist(Image image)
+        {
+            return context.Images.Any(x => x.Name == image.Name);
+        }
     }
 }

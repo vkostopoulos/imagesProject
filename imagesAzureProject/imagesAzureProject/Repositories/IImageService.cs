@@ -1,7 +1,7 @@
 ﻿using imagesAzureProject.Models;
 using System.Collections.Generic;
 
-namespace imagesAzureProject.Repositories
+namespace ImagesAzureProject.Repositories
 {
     /// <summary>
     /// Service responsible managing all Images operations
