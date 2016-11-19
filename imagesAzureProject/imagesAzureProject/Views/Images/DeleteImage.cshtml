@@ -28,11 +28,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
+            @Html.Label("Image")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ImagePath)
+            <img src="@Html.DisplayFor(model => model.ImagePath)" width="200" height="130" />
         </dd>
 
     </dl>
