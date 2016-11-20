@@ -90,7 +90,7 @@ namespace imagesAzureProject.Controllers
                     string AzurePath = AzureStorage.UploadImage(newImage,image);
 
                   
-                    TempData["Success"] = "The image added successfully";
+                    TempData["Success"] = "The image was added successfully";
                 }
                 else
                     ModelState.AddModelError("ImagePath", errorMsg);                          
@@ -111,13 +111,9 @@ namespace imagesAzureProject.Controllers
             // Delete current Image
             imageRepository.DeleteImage(Id);
 
-            TempData["SuccessfulDelete"] = "Successful Deleted";
+            TempData["SuccessfulDelete"] = "Successfully Deleted";
             return RedirectToAction("Index", "Home"); ;
         }
-
-
-
-
 
 
         // Check if is a Valid Image
