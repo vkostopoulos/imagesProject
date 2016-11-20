@@ -10,13 +10,10 @@ namespace ImagesAzureProject.Repositories
     {
 
         //Upload Image to Storage and return the Path
-        string UploadImage(HttpPostedFileBase InputImage,Image image);
+        Image UploadImage(HttpPostedFileBase InputImage,Image image);
 
         //Delete Image from Storage .Return true - false
         bool DeleteImage(string ImageName);
 
-        Image CheckIfImageExist(HttpPostedFileBase InputImage, Image image);
-     
-
-        }
+   }
 }

@@ -80,15 +80,11 @@ namespace imagesAzureProject.Controllers
                 if (isValidImage(newImage, ref errorMsg))
                 {
                   
-                    // Check if image exist,change name and set new image path and name                   
-                    Image ChangedImageName = AzureStorage.CheckIfImageExist(newImage, image);
+                    // Check if image exist,change name ,upload it and set new image path and name                   
+                    Image UploadedImage= AzureStorage.UploadImage(newImage, image);
 
                     //Add Image to DB
-                    int id = imageRepository.AddNewImage(ChangedImageName);
-
-                    //Upload to Azure Storage
-                    string AzurePath = AzureStorage.UploadImage(newImage,image);
-
+                    int id = imageRepository.AddNewImage(UploadedImage);
                   
                     TempData["Success"] = "The image was added successfully";
                 }
