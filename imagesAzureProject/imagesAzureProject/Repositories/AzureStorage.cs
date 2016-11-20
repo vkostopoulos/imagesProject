@@ -37,6 +37,12 @@ namespace ImagesAzureProject.Repositories
 
         // Check if blob with same Name exist. If yes change name to ImageName _ Number and check it again.
         // Find the first available Name , upload image and return the changed image
+
+        // We could check if image with specific name exist to ImageRepository -> AddNewImage function ,
+        // add image to db and after upload the image to Azure,
+        // it's more efficient and faster especially if db is local,
+        // but the IImageService you send to me couldn't have this ability without modification. 
+ 
         public Image UploadImage(HttpPostedFileBase InputImage,Image image)
         {
             string AzurePath = "";
