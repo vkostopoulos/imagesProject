@@ -15,13 +15,10 @@ namespace imagesAzureProject.Controllers
         // Declare a variable for an object that implements the IImagesService interface
         private IImagesService imageRepository;
 
-        private IAzureStorage AzureStorage;
-
         // The Default Constructor create a new context instance
         public ImagesController()
         {
             this.imageRepository = new ImageRepository(new ImagesContext());
-            this.AzureStorage = new AzureStorage();
         }
 
         // Allows the caller pass a context instance
@@ -78,13 +75,9 @@ namespace imagesAzureProject.Controllers
 
                 //Check if file is Valid Image
                 if (isValidImage(newImage, ref errorMsg))
-                {
-                  
-                    // Check if image exist,change name ,upload it and set new image path and name                   
-                    Image UploadedImage= AzureStorage.UploadImage(newImage, image);
-
+                {                
                     //Add Image to DB
-                    int id = imageRepository.AddNewImage(UploadedImage);
+                    int id = imageRepository.AddNewImage(image,newImage);
                   
                     TempData["Success"] = "The image was added successfully";
                 }
@@ -100,9 +93,6 @@ namespace imagesAzureProject.Controllers
         public ActionResult DeleteImage([Bind(Include = "Id")] int Id)
         {
             string currentImageName = imageRepository.GetImages().Where(x => x.Id == Id).FirstOrDefault().Name;
-
-            //Delete from Azure Storage
-            bool Deleted = AzureStorage.DeleteImage(currentImageName);
 
             // Delete current Image
             imageRepository.DeleteImage(Id);
