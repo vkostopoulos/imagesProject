@@ -66,7 +66,7 @@ namespace ImagesAzureProject.Repositories
             int number = 1;
 
             int ImageExist = context.Images.Where(x => x.Name == image.Name).Count();
-
+            ImageName = image.Name;
 
             // Check if exist
             while (ImageExist>0)
