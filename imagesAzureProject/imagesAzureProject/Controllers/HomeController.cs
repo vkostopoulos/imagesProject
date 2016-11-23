@@ -17,7 +17,7 @@ namespace imagesAzureProject.Controllers
         // The Default Constructor create a new context instance
         public HomeController()
         {
-            this.imageRepository = new ImageRepository(new ImagesContext());
+            this.imageRepository = new ImagesService(new ImagesContext());
         }
 
         // Allows the caller pass a context instance

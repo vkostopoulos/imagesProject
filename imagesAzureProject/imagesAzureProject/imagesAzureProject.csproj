@@ -195,7 +195,7 @@
     <Compile Include="Repositories\AzureStorage.cs" />
     <Compile Include="Repositories\IAzureStorage.cs" />
     <Compile Include="Repositories\IImageService.cs" />
-    <Compile Include="Repositories\ImageRepository.cs" />
+    <Compile Include="Repositories\ImagesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

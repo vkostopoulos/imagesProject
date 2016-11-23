@@ -10,7 +10,7 @@ namespace ImagesAzureProject.Repositories
 {
 
     //Implement IImageService Interface
-    public class ImageRepository : IImagesService
+    public class ImagesService : IImagesService
     {
        
         //  Define database context in a class variable
@@ -19,7 +19,7 @@ namespace ImagesAzureProject.Repositories
         private IAzureStorage AzureStorage;
 
         //  Constructor expects an instance of the context
-        public ImageRepository(ImagesContext context)
+        public ImagesService(ImagesContext context)
         {
             this.context = context;
             this.AzureStorage = new AzureStorage();
