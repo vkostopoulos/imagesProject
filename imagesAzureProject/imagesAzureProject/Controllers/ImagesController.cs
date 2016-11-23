@@ -103,7 +103,7 @@ namespace imagesAzureProject.Controllers
 
 
         // Check if is a Valid Image
-        private bool isValidImage(HttpPostedFileBase InputFile,ref string errorMsg)
+        private bool isValidImage(HttpPostedFileBase InputFile, ref string errorMsg)
         {
             // Check if is Null or 0 Kb
             if (InputFile == null || InputFile.ContentLength == 0)
@@ -113,16 +113,16 @@ namespace imagesAzureProject.Controllers
                 return false;
             }
 
-            // Get FilePath
-            string InputSource = Path.GetFullPath(InputFile.FileName);
-
             try
             {
+                //Images extensions . We could add every extension we want 
+                string[] imagesExtensions = { ".jpg", ".png" };
+
                 // Cehck if file is .png or .jpg
-                if (InputSource.EndsWith(".png") || InputSource.EndsWith(".jpg"))
+                if (imagesExtensions.Contains(Path.GetExtension(InputFile.FileName)))
                 {
                     // Check if file is Image File
-                    System.Drawing.Image imgInput = System.Drawing.Image.FromFile(InputSource);
+                    System.Drawing.Image imgInput = System.Drawing.Image.FromFile(InputFile.FileName);
                     System.Drawing.Imaging.ImageFormat thisFormat = imgInput.RawFormat;
                 }
                 else
@@ -139,6 +139,6 @@ namespace imagesAzureProject.Controllers
 
             return true;
 
-            }
+        }
     }
 }
