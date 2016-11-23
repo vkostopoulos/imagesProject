@@ -13,10 +13,7 @@ namespace imagesAzureProject.Models
         /// The name of the image. It can be different than actual file name.
         /// </summary>
 
-        [Required(ErrorMessage = "Please enter Image Name.")]
-        [DataType(DataType.Text,ErrorMessage ="Please enter a valid Text")]
-        [RegularExpression(@"^[_a-zA-Z0-9]*$", ErrorMessage = "Please enter a valid Name.Only alphanumeric Characters or _ !")]
-        public string Name { get; set; }
+         public string Name { get; set; }
 
         /// <summary>
         /// The description of the image

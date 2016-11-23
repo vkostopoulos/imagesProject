@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -73,8 +74,15 @@ namespace imagesAzureProject.Controllers
 
                     string errorMsg = "";
 
-                //Check if file is Valid Image
-                if (isValidImage(newImage, ref errorMsg))
+                if (!isValidName(image, ref errorMsg))
+                {
+                    ModelState.AddModelError("Name", errorMsg);
+                    return View();
+                }
+
+
+                    //Check if file is Valid Image
+                    if (isValidImage(newImage, ref errorMsg))
                 {                
                     //Add Image to DB
                     int id = imageRepository.AddNewImage(image,newImage);
@@ -102,8 +110,31 @@ namespace imagesAzureProject.Controllers
         }
 
 
-        // Check if is a Valid Image
-        private bool isValidImage(HttpPostedFileBase InputFile, ref string errorMsg)
+        // Validate Name
+        private bool isValidName(Image image, ref string errorMsg)
+        {
+            if (image.Name == null)
+            {
+                errorMsg = "Please enter Image Name.";
+                return false;
+            }
+          
+
+            Regex r = new Regex(@"^[_a-zA-Z0-9]*$");
+            Match match = r.Match(image.Name);
+            if (!match.Success)
+            {
+                errorMsg = "Please enter a valid Name.Only alphanumeric Characters or _ !";
+                return false;
+            }
+
+            return true;
+        }
+
+
+
+    // Check if is a Valid Image
+    private bool isValidImage(HttpPostedFileBase InputFile, ref string errorMsg)
         {
             // Check if is Null or 0 Kb
             if (InputFile == null || InputFile.ContentLength == 0)
