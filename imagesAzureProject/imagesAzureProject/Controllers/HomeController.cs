@@ -14,12 +14,6 @@ namespace imagesAzureProject.Controllers
         // Declare a variable for an object that implements the IImagesService interface
         private IImagesService imageRepository;
 
-        // The Default Constructor create a new context instance
-        public HomeController()
-        {
-            this.imageRepository = new ImagesService(new ImagesContext());
-        }
-
         // Allows the caller pass a context instance
         public HomeController(IImagesService ImageRepository)
         {

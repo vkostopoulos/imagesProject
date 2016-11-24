@@ -13,16 +13,9 @@ namespace imagesAzureProject.Controllers
     public class ImagesController : Controller
     {
 
-        // Declare a variable for an object that implements the IImagesService interface
         private IImagesService imageRepository;
 
-        // The Default Constructor create a new context instance
-        public ImagesController()
-        {
-            this.imageRepository = new ImagesService(new ImagesContext());
-        }
-
-        // Allows the caller pass a context instance
+        //Injected the Repository
         public ImagesController(IImagesService ImageRepository)
         {
             this.imageRepository = ImageRepository;

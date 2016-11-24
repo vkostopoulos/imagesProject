@@ -19,10 +19,11 @@ namespace ImagesAzureProject.Repositories
         private IAzureStorage AzureStorage;
 
         //  Constructor expects an instance of the context
-        public ImagesService(ImagesContext context)
+        // Injected the Repository
+        public ImagesService(ImagesContext context,IAzureStorage AzureStorage)
         {
             this.context = context;
-            this.AzureStorage = new AzureStorage();
+            this.AzureStorage = AzureStorage;
         }
 
         // Get all Images
