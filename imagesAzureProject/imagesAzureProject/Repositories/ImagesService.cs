@@ -16,14 +16,10 @@ namespace ImagesAzureProject.Repositories
         //  Define database context in a class variable
         private ImagesContext context;
 
-        private IAzureStorage AzureStorage;
-
         //  Constructor expects an instance of the context
-        // Injected the Repository
-        public ImagesService(ImagesContext context,IAzureStorage AzureStorage)
+        public ImagesService(ImagesContext context)
         {
-            this.context = context;
-            this.AzureStorage = AzureStorage;
+            this.context = context;          
         }
 
         // Get all Images
@@ -33,15 +29,13 @@ namespace ImagesAzureProject.Repositories
         }
 
         // Add New Image
-        public int AddNewImage(Image image, HttpPostedFileBase PostedImage)
+        public int AddNewImage(Image image)
         {
             // Check if image exist,change path
-            image = CheckDbIfExist(image, PostedImage);
+            image = CheckDbIfExist(image);
 
-            //upload it                   
-            Image UploadedImage = AzureStorage.UploadImage(PostedImage, image);
-
-            context.Images.Add(UploadedImage);
+         
+            context.Images.Add(image);
             context.SaveChanges();
 
              return image.Id;
@@ -53,14 +47,12 @@ namespace ImagesAzureProject.Repositories
             //Find the selected Image
             Image selectedImage = context.Images.Where(x => x.Id == id).FirstOrDefault();
 
-            //Delete from Azure Storage
-            bool Deleted = AzureStorage.DeleteImage(selectedImage.Name);
             //Remove
             context.Images.Remove(selectedImage);
             context.SaveChanges();
         }
 
-        private Image CheckDbIfExist(Image image,HttpPostedFileBase PostedImage)
+        private Image CheckDbIfExist(Image image)
         {
             string ImageName = "";
 

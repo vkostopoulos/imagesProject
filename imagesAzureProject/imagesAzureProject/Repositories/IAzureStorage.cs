@@ -13,7 +13,7 @@ namespace ImagesAzureProject.Repositories
         Image UploadImage(HttpPostedFileBase InputImage,Image image);
 
         //Delete Image from Storage .Return true - false
-        bool DeleteImage(string ImageName);
+        bool DeleteImage(Image image);
 
    }
 }

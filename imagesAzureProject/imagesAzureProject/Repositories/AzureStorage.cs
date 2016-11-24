@@ -40,7 +40,7 @@ namespace ImagesAzureProject.Repositories
         {
     
             // Retrieve reference to a blob named as image.
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(image.Name);
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(Guid.NewGuid().ToString()+"_"+image.Name);
             
             // Create the ImageName blob with contents from a local file.
             using (var fileStream = System.IO.File.OpenRead(Path.GetFullPath(InputImage.FileName)))
@@ -53,12 +53,12 @@ namespace ImagesAzureProject.Repositories
 
             return image;
         }
-        public bool DeleteImage(string Imagename)
+        public bool DeleteImage(Image image)
         {
             try
             {
                 // Retrieve reference to a blob named "myblob.txt".
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(Imagename);
+                CloudBlockBlob blockBlob = container.GetBlockBlobReference(Path.GetFileName(image.ImagePath));
 
                 // Delete the blob.
                 blockBlob.Delete();

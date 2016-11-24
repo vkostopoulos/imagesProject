@@ -14,11 +14,13 @@ namespace imagesAzureProject.Controllers
     {
 
         private IImagesService imageRepository;
+        private IAzureStorage AzureStorage;
 
-        //Injected the Repository
-        public ImagesController(IImagesService ImageRepository)
+        //Injected the Repositories
+        public ImagesController(IImagesService ImageRepository, IAzureStorage AzureStorage)
         {
             this.imageRepository = ImageRepository;
+            this.AzureStorage = AzureStorage;
         }
 
         public ActionResult AddImage()
@@ -38,8 +40,7 @@ namespace imagesAzureProject.Controllers
 
             return View(currentImage);
         }
-
-  
+ 
         public ActionResult Details(int? id)
         {
             //Find the Image
@@ -76,10 +77,17 @@ namespace imagesAzureProject.Controllers
 
                     //Check if file is Valid Image
                     if (isValidImage(newImage, ref errorMsg))
-                {                
+                {
+
+                    //Upload Image to Azure               
+                    Image UploadedImage = AzureStorage.UploadImage(newImage, image);
+
+                    // Set Image Path
+                    image.ImagePath = UploadedImage.ImagePath;
+
                     //Add Image to DB
-                    int id = imageRepository.AddNewImage(image,newImage);
-                  
+                    int id = imageRepository.AddNewImage(image);
+
                     TempData["Success"] = "The image was added successfully";
                 }
                 else
@@ -93,9 +101,13 @@ namespace imagesAzureProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteImage([Bind(Include = "Id")] int Id)
         {
-            string currentImageName = imageRepository.GetImages().Where(x => x.Id == Id).FirstOrDefault().Name;
+            Image currentImage = imageRepository.GetImages().Where(x => x.Id == Id).FirstOrDefault();
+
+            //Delete from Azure Storage
+            bool Deleted = AzureStorage.DeleteImage(currentImage);
 
             // Delete current Image
+            if (Deleted)
             imageRepository.DeleteImage(Id);
 
             TempData["SuccessfulDelete"] = "Successfully Deleted";
@@ -123,8 +135,6 @@ namespace imagesAzureProject.Controllers
 
             return true;
         }
-
-
 
     // Check if is a Valid Image
     private bool isValidImage(HttpPostedFileBase InputFile, ref string errorMsg)
